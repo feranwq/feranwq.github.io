@@ -2,7 +2,7 @@ title: BLOG部署
 date:
 tags: 
 mp3: 
-cover: http://photo.weibo.com/2008451101/wbphotos/large/mid/4033554566500514/pid/77b6881djw1f91kgdgi52j20u00u0tc8
+cover: http://wx3.sinaimg.cn/large/77b6881dly1fhu97q83u7j20zk0m8787.jpg
 ---
 
 
