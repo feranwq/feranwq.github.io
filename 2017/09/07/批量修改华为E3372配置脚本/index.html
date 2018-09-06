@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>feran&#39;s blog</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="feran,"> 
+    
+    <meta name="author" content="feran"> 
+    <link rel="alternative" href="atom.xml" title="feran&#39;s blog" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="/css/diaspora.css">
+
+</head>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">批量修改华为E3372配置脚本</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div>
+        <h1 class="title">批量修改华为E3372配置脚本</h1>
+        <div class="stuff">
+            <span>九月 07, 2017</span>
+        </div>
+        <div class="content markdown">
+            <h3 id="公司有几十个4G网卡需要批量设置-写了个小脚本来自动检测并修改配置-python2-7"><a href="#公司有几十个4G网卡需要批量设置-写了个小脚本来自动检测并修改配置-python2-7" class="headerlink" title="公司有几十个4G网卡需要批量设置,写了个小脚本来自动检测并修改配置,python2.7"></a>公司有几十个4G网卡需要批量设置,写了个小脚本来自动检测并修改配置,python2.7</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line"># coding: utf-8</span><br><span class="line"></span><br><span class="line">import re</span><br><span class="line">import base64, hashlib</span><br><span class="line">import urllib2</span><br><span class="line">import urllib</span><br><span class="line">import cookielib</span><br><span class="line">import time</span><br><span class="line">from jsbn import RSAKey</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 预编译匹配规则</span><br><span class="line">re_csrf_token = re.compile(r&apos;(?&lt;=&quot;csrf_token&quot; content=&quot;).+(?=&quot;/&gt;)&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 用到的url</span><br><span class="line">login_url = &apos;http://192.168.8.1/html/home.html&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 初始化opener</span><br><span class="line">cookie = cookielib.CookieJar()</span><br><span class="line">opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def try_login():</span><br><span class="line">    # 此函数用获取token的方式探测网卡是启动</span><br><span class="line">    try:</span><br><span class="line">        csrf_token = opener.open(login_url, timeout=1).read()</span><br><span class="line">        g_requestVerificationToken = re_csrf_token.findall(csrf_token)</span><br><span class="line">        return g_requestVerificationToken</span><br><span class="line">    except:</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def data_roaming_open():</span><br><span class="line">    # 此函数用于打开数据漫游开关,正常返回字符串&apos;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;response&gt;OK&lt;/response&gt;&apos;</span><br><span class="line"></span><br><span class="line">    # 数据漫游url</span><br><span class="line">    data_roaming_url = &apos;http://192.168.8.1/api/dialup/connection&apos;</span><br><span class="line"></span><br><span class="line">    # 构造POST数据</span><br><span class="line">    data_roaming_postdata = &apos;&apos;&apos;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;request&gt;&lt;RoamAutoConnectEnable&gt;1&lt;/RoamAutoConnectEnable&gt;\</span><br><span class="line">    &lt;MaxIdelTime&gt;0&lt;/MaxIdelTime&gt;&lt;ConnectMode&gt;0&lt;/ConnectMode&gt;&lt;MTU&gt;1500&lt;/MTU&gt;&lt;auto_dial_switch&gt;1&lt;/auto_dial_switch&gt;&lt;pdp_always_on&gt;1\</span><br><span class="line">    &lt;/pdp_always_on&gt;&lt;/request&gt;&apos;&apos;&apos;</span><br><span class="line"></span><br><span class="line">    # 获取token</span><br><span class="line">    csrf_token = opener.open(login_url).read()</span><br><span class="line">    g_requestVerificationToken = re_csrf_token.findall(csrf_token)</span><br><span class="line"></span><br><span class="line">    # 添加到header并发送POST请求</span><br><span class="line">    opener.addheaders = [(&apos;__RequestVerificationToken&apos;, g_requestVerificationToken[0])]</span><br><span class="line">    data_roaming = opener.open(data_roaming_url, data_roaming_postdata).read()</span><br><span class="line">    return data_roaming</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def profile_add():</span><br><span class="line">    # 此函数用于创建中国移动APN为cmiot的profile,正常返回字符串&apos;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;response&gt;OK&lt;/response&gt;&apos;</span><br><span class="line">    # 重复返回字符串&apos;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;\r\n&lt;error&gt;\r\n&lt;code&gt;107723&lt;/code&gt;\r\n&lt;message&gt;&lt;/message&gt;\r\n&lt;/error&gt;\r\n&apos;</span><br><span class="line"></span><br><span class="line">    # profile url</span><br><span class="line">    profiles_url = &apos;http://192.168.8.1/api/dialup/profiles&apos;</span><br><span class="line"></span><br><span class="line">    # RSA加密所需公钥获取url</span><br><span class="line">    publickey_url = &apos;http://192.168.8.1/api/webserver/publickey&apos;</span><br><span class="line"></span><br><span class="line">    # 预编译匹配规则</span><br><span class="line">    encpubkeyn_compile = re.compile(r&apos;&lt;encpubkeyn&gt;(.*)&lt;/encpubkeyn&gt;&apos;)</span><br><span class="line">    encpubkeye_compile = re.compile(r&apos;&lt;encpubkeye&gt;(.*)&lt;/encpubkeye&gt;&apos;)</span><br><span class="line"></span><br><span class="line">    # 构造POST数据</span><br><span class="line">    profile_add_data = &apos;&apos;&apos;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;request&gt;&lt;Delete&gt;0&lt;/Delete&gt;&lt;SetDefault&gt;0&lt;/SetDefault&gt;&lt;Modify&gt;1\</span><br><span class="line">    &lt;/Modify&gt;&lt;Profile&gt;&lt;Index&gt;&lt;/Index&gt;&lt;IsValid&gt;1&lt;/IsValid&gt;&lt;Name&gt;中国移动&lt;/Name&gt;&lt;ApnIsStatic&gt;1&lt;/ApnIsStatic&gt;&lt;ApnName&gt;cmiot&lt;/ApnName&gt;\</span><br><span class="line">    &lt;DialupNum&gt;*99#&lt;/DialupNum&gt;&lt;Username&gt;&lt;/Username&gt;&lt;Password&gt;&lt;/Password&gt;&lt;AuthMode&gt;0&lt;/AuthMode&gt;&lt;IpIsStatic&gt;&lt;/IpIsStatic&gt;&lt;IpAddress&gt;\</span><br><span class="line">    &lt;/IpAddress&gt;&lt;DnsIsStatic&gt;&lt;/DnsIsStatic&gt;&lt;PrimaryDns&gt;&lt;/PrimaryDns&gt;&lt;SecondaryDns&gt;&lt;/SecondaryDns&gt;&lt;ReadOnly&gt;0&lt;/ReadOnly&gt;&lt;iptype&gt;2&lt;/iptype&gt;\</span><br><span class="line">    &lt;/Profile&gt;&lt;/request&gt;&apos;&apos;&apos;</span><br><span class="line"></span><br><span class="line">    # 获取token</span><br><span class="line">    csrf_token = opener.open(login_url).read()</span><br><span class="line">    g_requestVerificationToken = re_csrf_token.findall(csrf_token)</span><br><span class="line"></span><br><span class="line">    # 获取公钥</span><br><span class="line">    publickey = opener.open(publickey_url).read()</span><br><span class="line">    encpubkeyn = encpubkeyn_compile.findall(publickey)</span><br><span class="line">    encpubkeye = encpubkeye_compile.findall(publickey)</span><br><span class="line"></span><br><span class="line">    # 添加到header</span><br><span class="line">    opener.addheaders = [(&apos;__RequestVerificationToken&apos;, g_requestVerificationToken[0]),</span><br><span class="line">                         (&apos;encrypt_transmit&apos;, &apos;encrypt_transmit&apos;), ]</span><br><span class="line">    # 加密数据</span><br><span class="line">    rsa = RSAKey()</span><br><span class="line">    rsa.setPublic(encpubkeyn[0], encpubkeye[0])</span><br><span class="line">    encstring = base64.b64encode(profile_add_data)</span><br><span class="line">    num = len(encstring) / 245.0</span><br><span class="line">    restotal = &apos;&apos;</span><br><span class="line">    i = 0</span><br><span class="line">    while i &lt; num:</span><br><span class="line">        encdata = encstring[i * 245: i * 245 + 245]</span><br><span class="line">        res = rsa.encrypt(encdata)</span><br><span class="line">        restotal += res</span><br><span class="line">        i = i + 1</span><br><span class="line"></span><br><span class="line">    # POST数据</span><br><span class="line">    profile = opener.open(profiles_url, restotal).read()</span><br><span class="line">    return profile</span><br><span class="line"></span><br><span class="line">while True:</span><br><span class="line">    status = try_login()</span><br><span class="line">    if status:</span><br><span class="line">        print &apos;begin create profile&apos;, profile_add(), data_roaming_open()</span><br><span class="line">        time.sleep(15)</span><br><span class="line"></span><br><span class="line">    else:</span><br><span class="line">        print &apos;cannot connect e3372&apos;</span><br></pre></td></tr></table></figure>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="http://link.hhtjim.com/163/425570952.mp3">
+            </audio>
+        </div>
+        
+<div class="comment link" data-id="2017/09/07/批量修改华为E3372配置脚本/" data-title="批量修改华为E3372配置脚本" data-url="http://blog.feran.top/2017/09/07/批量修改华为E3372配置脚本/" data-shortname="feran">查看评论</div>
+
+
+    </div>
+</div>
+
+    </div>
+</div>
+</body>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-69833742-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</html>

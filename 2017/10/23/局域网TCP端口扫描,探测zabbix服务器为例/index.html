@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>feran&#39;s blog</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="feran,"> 
+    
+    <meta name="author" content="feran"> 
+    <link rel="alternative" href="atom.xml" title="feran&#39;s blog" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="/css/diaspora.css">
+
+</head>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">局域网TCP端口扫描,探测zabbix服务器为例</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div>
+        <h1 class="title">局域网TCP端口扫描,探测zabbix服务器为例</h1>
+        <div class="stuff">
+            <span>十月 23, 2017</span>
+        </div>
+        <div class="content markdown">
+            <p>通过获取本机地址反推本段(一个C)的IP列表,然后批量扫描TCP端口是否可用,后续要了解是否可以直接通过掩码来反推一个局域网IP的生成器出来提高效率<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf8 -*-</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">脚本通过默认路由探测本网段地址内的zabbix proxy服务器</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">from threading import Thread, activeCount</span><br><span class="line">import socket</span><br><span class="line">import os</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">#测试ip和端口是否开放</span><br><span class="line">def test_port(dst,port):</span><br><span class="line">    #os.system(&apos;title &apos;+str(port))</span><br><span class="line"></span><br><span class="line">    cli_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    try:</span><br><span class="line"></span><br><span class="line">        indicator = cli_sock.connect_ex((dst, port))</span><br><span class="line">        if indicator == 0:</span><br><span class="line">            print(dst,port)</span><br><span class="line">        cli_sock.close()</span><br><span class="line">    except:</span><br><span class="line"></span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">def get_network_ip():</span><br><span class="line">    default_route = None</span><br><span class="line">    network_ip_list = []</span><br><span class="line"></span><br><span class="line">    for line in os.popen(&apos;ip route show&apos;):</span><br><span class="line">        if re.match(&apos;^\s*default\s+via\s+(\S+)\s+dev\s+(\S+)\s.*?\n$&apos;, line):</span><br><span class="line">            m = re.match(&apos;^\s*default\s+via\s+(\S+)\s+dev\s+(\S+)\s.*?\n$&apos;, line)</span><br><span class="line">            default_route = &#123;</span><br><span class="line">                &apos;ip_address&apos;: m.group(1),</span><br><span class="line">                &apos;interface_name&apos;: m.group(2)</span><br><span class="line">            &#125;</span><br><span class="line">            break</span><br><span class="line">    ip_prefix = &apos;.&apos;.join(&quot;&quot;.join(m.group(1)).split(&apos;.&apos;)[:-1])</span><br><span class="line">    for i in range(1,255):</span><br><span class="line">        ip = &apos;%s.%s&apos;%(ip_prefix,i)</span><br><span class="line">        network_ip_list.append(ip)</span><br><span class="line"></span><br><span class="line">    return network_ip_list</span><br><span class="line"></span><br><span class="line">if __name__==&apos;__main__&apos;:</span><br><span class="line">    #扫描ip</span><br><span class="line">    dst_list = get_network_ip()</span><br><span class="line">    i = 10051</span><br><span class="line">    #20线程，扫描0~100端口</span><br><span class="line">    #while i &lt; 10060:</span><br><span class="line">    if activeCount() &lt;= 20:</span><br><span class="line">        for dst in dst_list:</span><br><span class="line">            Thread(target = test_port, args = (dst, i)).start()</span><br><span class="line"></span><br><span class="line">    #        i = i + 1</span><br><span class="line">    while True:</span><br><span class="line">        if activeCount() == 2:</span><br><span class="line">            break</span><br></pre></td></tr></table></figure></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="http://link.hhtjim.com/163/425570952.mp3">
+            </audio>
+        </div>
+        
+<div class="comment link" data-id="2017/10/23/局域网TCP端口扫描,探测zabbix服务器为例/" data-title="局域网TCP端口扫描,探测zabbix服务器为例" data-url="http://blog.feran.top/2017/10/23/局域网TCP端口扫描,探测zabbix服务器为例/" data-shortname="feran">查看评论</div>
+
+
+    </div>
+</div>
+
+    </div>
+</div>
+</body>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-69833742-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</html>

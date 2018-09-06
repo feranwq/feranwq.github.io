@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>feran&#39;s blog</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="feran,"> 
+    
+    <meta name="author" content="feran"> 
+    <link rel="alternative" href="atom.xml" title="feran&#39;s blog" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="/css/diaspora.css">
+
+</head>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">BLOG部署</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div>
+        <h1 class="title">BLOG部署</h1>
+        <div class="stuff">
+            <span>五月 13, 2016</span>
+        </div>
+        <div class="content markdown">
+            <h2 id="初识Playbooks"><a href="#初识Playbooks" class="headerlink" title="初识Playbooks"></a>初识Playbooks</h2><p>写好剧本,让服务器按照你的剧本尽情表演.</p>
+<p>playbooks的基础用法是用来配置和管理远程服务器,但是还有更多高级功能例如涉及滚动更新的多重部署操作进行排序,并且可以和监控服务器负载均衡服务器交互.</p>
+<p>每个playbooks都由多个plays组成,每个play可以理解为一场戏,让主机们来扮演不同的角色,可以理解为让他们来调用不同的模块(-m somemoudle).</p>
+<p>playbooks是yaml格式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 安装运行apache</span><br><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  vars:</span><br><span class="line">    http_port: 80</span><br><span class="line">    max_clients: 200</span><br><span class="line">  remote_user: root</span><br><span class="line">  tasks:</span><br><span class="line">  - name: ensure apache is at the latest version</span><br><span class="line">    yum: name=httpd state=latest</span><br><span class="line">  - name: write the apache config file</span><br><span class="line">    template: src=/srv/httpd.j2 dest=/etc/httpd.conf</span><br><span class="line">    notify:</span><br><span class="line">    - restart apache</span><br><span class="line">  - name: ensure apache is running (and enable it at boot)</span><br><span class="line">    service: name=httpd state=started enabled=yes</span><br><span class="line">  handlers:</span><br><span class="line">    - name: restart apache</span><br><span class="line">      service: name=httpd state=restarted</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 两场戏</span><br><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  remote_user: root</span><br><span class="line"></span><br><span class="line">  tasks:</span><br><span class="line">  - name: ensure apache is at the latest version</span><br><span class="line">    yum: name=httpd state=latest</span><br><span class="line">  - name: write the apache config file</span><br><span class="line">    template: src=/srv/httpd.j2 dest=/etc/httpd.conf</span><br><span class="line"></span><br><span class="line">- hosts: databases</span><br><span class="line">  remote_user: root</span><br><span class="line"></span><br><span class="line">  tasks:</span><br><span class="line">  - name: ensure postgresql is at the latest version</span><br><span class="line">    yum: name=postgresql state=latest</span><br><span class="line">  - name: ensure that postgresql is started</span><br><span class="line">    service: name=postgresql state=started</span><br></pre></td></tr></table></figure>
+<p>配置文件逐个分析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># hosts 和remote_user</span><br><span class="line"># 指定patterns和执行任务的用户,可以特定任务指定特定用户,是否需要sudo</span><br><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  remote_user: yourname</span><br><span class="line">  </span><br><span class="line">---</span><br><span class="line">- hosts: webservers</span><br><span class="line">  remote_user: yourname</span><br><span class="line">  tasks:</span><br><span class="line">    - service: name=nginx state=started</span><br><span class="line">      remote_user: yourname</span><br><span class="line">      become: yes</span><br><span class="line">      become_method: sudo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># tasks list</span><br><span class="line"># 根据playbooks从上到下表演时，task失败的主机将被移出整个palybooks。</span><br><span class="line"># tasks里的模块是幂等的,模块执行一次/多次效果应该是一样的,模块会检查是否达到了期望状态,如果达到状态就退出不再执行.每个play的模块都是幂等的话,整个playbooks就是幂等的,重复运行playbooks是安全的</span><br><span class="line">tasks:</span><br><span class="line">  - name: make sure apache is running # 每个任务都有一个name,可以理解为任务注释,最好简介明了的表明任务目标</span><br><span class="line">    service: name=httpd state=started # 调用的模块,传入模块所需参数</span><br><span class="line">    </span><br><span class="line">tasks:</span><br><span class="line">  - name: run this command and ignore the result</span><br><span class="line">    shell: /usr/bin/somecommand # shell/command模块直接提供命令</span><br><span class="line">    ignore_errors: True</span><br><span class="line">    </span><br><span class="line">tasks:</span><br><span class="line">  - name: create a virtual host file for &#123;&#123; vhost &#125;&#125; # 支持调用变量</span><br><span class="line">    template: src=somefile.j2 dest=/etc/httpd/conf.d/&#123;&#123; vhost &#125;&#125;    </span><br><span class="line">    </span><br><span class="line">template: src=templates/foo.j2 dest=/etc/foo.conf # 新版本模块调用方法,推荐</span><br><span class="line">action: template src=templates/foo.j2 dest=/etc/foo.conf # 0.8以前的老版本,现在版本也可以用</span><br></pre></td></tr></table></figure>
+<h4 id="Handlers-Running-Operations-On-Change-产生变化时的操作"><a href="#Handlers-Running-Operations-On-Change-产生变化时的操作" class="headerlink" title="Handlers: Running Operations On Change 产生变化时的操作"></a>Handlers: Running Operations On Change 产生变化时的操作</h4><p>在一个play里无论有多少个task调用了notify,它只会在全部执行完成的时候被调用一次</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># 只有当foo.conf文件产生变化时重启服务,这里的notify就是一个handlers</span><br><span class="line"></span><br><span class="line">handlers:</span><br><span class="line">    - name: restart memcached</span><br><span class="line">      service: name=memcached state=restarted</span><br><span class="line">    - name: restart apache</span><br><span class="line">      service: name=apache state=restarted</span><br><span class="line"></span><br><span class="line">- name: template configuration file</span><br><span class="line">  template: src=template.j2 dest=/etc/foo.conf</span><br><span class="line">  notify:</span><br><span class="line">     - restart memcached</span><br><span class="line">     - restart apache</span><br><span class="line">     </span><br><span class="line">#2.2之后的版本可以listen</span><br><span class="line">handlers:</span><br><span class="line">    - name: restart memcached</span><br><span class="line">      service: name=memcached state=restarted</span><br><span class="line">      listen: &quot;restart web services&quot;</span><br><span class="line">    - name: restart apache</span><br><span class="line">      service: name=apache state=restarted</span><br><span class="line">      listen: &quot;restart web services&quot;</span><br><span class="line"></span><br><span class="line">tasks:</span><br><span class="line">    - name: restart everything</span><br><span class="line">      command: echo &quot;this task will restart the web services&quot;</span><br><span class="line">      notify: &quot;restart web services&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>notify和listen总是按handlers定义的顺序执行,不会因为在plays里notify定义的顺序改变</li>
+<li>handlers和listen定义好在playbooks全局生效</li>
+<li>虽然handlers的name可以重复,但是只有一个可以执行,最好区别开</li>
+<li>You cannot notify a handler that is defined inside of an include. As of Ansible 2.1, this does work, however the include must be static.</li>
+<li>handlers定义在<code>pre_tasks</code>,<code>tasks</code>和<code>post_tasks</code>中时,会在被notify之后的最后自动刷新</li>
+<li>handlers定义在<code>roles</code>中时,会tasks部分最后自动刷新,但是会早于所有的tasks’s handlers</li>
+</ul>
+<h4 id="执行剧本"><a href="#执行剧本" class="headerlink" title="执行剧本"></a>执行剧本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ansible-playbook playbook.yml -f 10</span><br><span class="line">--syntax-check 可以检查yaml语法</span><br><span class="line">--verbose 详细输出</span><br><span class="line">--list-hosts 在下发playbooks之前查看pattens</span><br></pre></td></tr></table></figure>
+<h2 id="Creating-Reusable-Playbooks创建可重用的剧本-解耦"><a href="#Creating-Reusable-Playbooks创建可重用的剧本-解耦" class="headerlink" title="Creating Reusable Playbooks创建可重用的剧本(解耦)"></a>Creating Reusable Playbooks创建可重用的剧本(解耦)</h2><p>有些plays可以独立出来给不同的playbooks重复使用,ansible为此提供了<code>includes</code>,<code>imports</code>和<code>roles</code></p>
+<p><code>includes</code>和<code>imports</code>是2.4版本的新特性,允许用户把大的playbooks拆分成多个小的playbooks被包含/引用甚至可以在同一个playbooks里重复使用</p>
+<p><code>roles</code>不仅可以把tasks打包到一起,还可以包含<code>vars</code>,<code>handlers</code>,<code>modules</code>和<code>plugins</code></p>
+<h4 id="动态和静态"><a href="#动态和静态" class="headerlink" title="动态和静态"></a>动态和静态</h4><p>重用plays的方法分两种,一种是动态包含<code>include*</code>(<code>include_tasks</code>, <code>include_role</code>, etc.),一种是静态导入<code>import*</code> (<code>import_playbook</code>, <code>import_tasks</code>, etc.)</p>
+<h4 id="动态和静态的差异"><a href="#动态和静态的差异" class="headerlink" title="动态和静态的差异"></a>动态和静态的差异</h4><p>这两种操作模式十分简单</p>
+<ul>
+<li>静态导入是在加载时展开</li>
+<li>动态包含是在运行时展开</li>
+</ul>
+<p>当涉及到<code>task</code>的选项如<code>tags</code>或者条件语句(例如<code>when</code>)时:</p>
+<ul>
+<li>静态导入时,when在被import的文件里的每个task, 都会重新检查一次. 因为是加载时展开的, 文件名的变量不能是动态设定的.</li>
+<li>动态包含时,when只应用一次,被include的文件名可以使用变量</li>
+</ul>
+<h4 id="动态包含和静态引入的权衡和坑"><a href="#动态包含和静态引入的权衡和坑" class="headerlink" title="动态包含和静态引入的权衡和坑"></a>动态包含和静态引入的权衡和坑</h4><p>使用<code>include *</code>语句的主要优点是循环。当循环与<code>include</code>一起使用时，被动态包含的<code>task</code>或<code>role</code>将为循环中的每个项目执行一次。<br>与<code>include *</code>语句相比，使用<code>import *</code>有一些限制：</p>
+<ul>
+<li>只存在于动态包含内的<code>tags</code>不会显示在<code>–list-tags</code>的输出里</li>
+<li>只存在于动态包含内的<code>tasks</code>不会显示在<code>–list-tasks</code>的输出里</li>
+<li>不能使用<code>notify</code>来触发来自动态包含内部的<code>handler</code></li>
+<li>不能使用<code>--start-at-task</code>开始执行动态包含内的<code>task</code></li>
+</ul>
+<p>与<code>import *</code>语句相比，使用<code>include *</code>也有一些限制：</p>
+<ul>
+<li>循环不能用于静态导入</li>
+<li>When using variables for the target file or role name, variables from inventory sources (host/group vars, etc.) cannot be used.</li>
+</ul>
+<p>示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">x.yml</span><br><span class="line">- hosts: 127.0.0.1</span><br><span class="line">  gather_facts: False</span><br><span class="line">  tasks:</span><br><span class="line">    - set_fact: mode=1</span><br><span class="line">    - include_tasks: y.yml</span><br><span class="line">      when: mode == &quot;1&quot;</span><br><span class="line"></span><br><span class="line">    - set_fact: mode=1</span><br><span class="line">    - import_tasks: y.yml</span><br><span class="line">      when: mode == &quot;1&quot;</span><br><span class="line">      </span><br><span class="line">y.yml</span><br><span class="line">- set_fact: mode=&quot;2&quot;</span><br><span class="line"></span><br><span class="line">- debug:</span><br><span class="line">    msg: &gt;</span><br><span class="line">      Display in only `include_tasks`.</span><br><span class="line">      `include_tasks` does NOT re-evaluate `mode` for every step.</span><br><span class="line">      `import_tasks` DOES re-evaluate condition.</span><br></pre></td></tr></table></figure></p>
+<p>运行<code>ansible-play -b x.yml</code> 后: debug 的message只在<code>include_tasks</code> 里被执行了.</p>
+<p>第2个<code>import_tasks</code>中的debug被skip掉了.</p>
+<p>因为<code>mode</code>被改变之后, <code>include_tasks</code> 不会重新evaluate mode,<code>import_tasks</code> 会根据变化后的mode值重新evaluate每个task的条件.<br>示例结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">TASK [set_fact] *******************************************************</span><br><span class="line">ok: [127.0.0.1]</span><br><span class="line"></span><br><span class="line">TASK [include_tasks] **************************************************</span><br><span class="line">included: /root/devops/ansible/y.yml for 127.0.0.1</span><br><span class="line"></span><br><span class="line">TASK [set_fact] *******************************************************</span><br><span class="line">ok: [127.0.0.1]</span><br><span class="line"></span><br><span class="line">TASK [debug] **********************************************************</span><br><span class="line">ok: [127.0.0.1] =&gt; &#123;</span><br><span class="line">    &quot;msg&quot;: &quot;Display in only `include_tasks`.</span><br><span class="line">            `include_tasks` does NOT re-evaluate mode for every step.</span><br><span class="line">            `import_tasks` DOES re-evaluate condition\n&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TASK [set_fact] *******************************************************</span><br><span class="line">ok: [127.0.0.1]</span><br><span class="line"></span><br><span class="line">TASK [set_fact] *******************************************************</span><br><span class="line">ok: [127.0.0.1]</span><br><span class="line"></span><br><span class="line">TASK [debug] **********************************************************</span><br><span class="line">skipping: [127.0.0.1]</span><br></pre></td></tr></table></figure></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="http://link.hhtjim.com/163/425570952.mp3">
+            </audio>
+        </div>
+        
+<div class="comment link" data-id="2016/05/13/ansible playbooks/" data-title="BLOG部署" data-url="http://blog.feran.top/2016/05/13/ansible playbooks/" data-shortname="feran">查看评论</div>
+
+
+    </div>
+</div>
+
+    </div>
+</div>
+</body>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-69833742-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</html>

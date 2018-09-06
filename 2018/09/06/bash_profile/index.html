@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>feran&#39;s blog</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="feran,"> 
+    
+    <meta name="author" content="feran"> 
+    <link rel="alternative" href="atom.xml" title="feran&#39;s blog" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="/css/diaspora.css">
+
+</head>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">bash_profile</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div>
+        <h1 class="title">bash_profile</h1>
+        <div class="stuff">
+            <span>九月 06, 2018</span>
+        </div>
+        <div class="content markdown">
+            <p>做个记录，不断补充吧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"># histroy</span><br><span class="line"></span><br><span class="line">HISTCONTROL=ignoredups  #忽略重复命令</span><br><span class="line">HISTCONTROL=erasedups #清除重复命令， 多个终端写history的时候还是有可能重复</span><br><span class="line">HISTFILESIZE=1000000000 #命令历史文件大小</span><br><span class="line">HISTSIZE=10000  # 保存历史命令条数</span><br><span class="line">PROMPT_COMMAND=&quot;history -a&quot;</span><br><span class="line">export HISTSIZE PROMPT_COMMAND</span><br><span class="line"></span><br><span class="line"># git</span><br><span class="line">find_git_branch () &#123;</span><br><span class="line"></span><br><span class="line">local dir=. head</span><br><span class="line"></span><br><span class="line">until [ &quot;$dir&quot; -ef / ]; do</span><br><span class="line"></span><br><span class="line">if [ -f &quot;$dir/.git/HEAD&quot; ]; then</span><br><span class="line"></span><br><span class="line">head=$(&lt; &quot;$dir/.git/HEAD&quot;)</span><br><span class="line"></span><br><span class="line">if [[ $head = ref:\ refs/heads/* ]]; then</span><br><span class="line"></span><br><span class="line">git_branch=&quot; ($&#123;head#*/*/&#125;)&quot;</span><br><span class="line"></span><br><span class="line">elif [[ $head != &apos;&apos; ]]; then</span><br><span class="line"></span><br><span class="line">git_branch=&quot; → (detached)&quot;</span><br><span class="line"></span><br><span class="line">else</span><br><span class="line"></span><br><span class="line">git_branch=&quot; → (unknow)&quot;</span><br><span class="line"></span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">return</span><br><span class="line"></span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">dir=&quot;../$dir&quot;</span><br><span class="line"></span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">git_branch=&apos;&apos;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">alias gitl=&apos;git log --color --graph --decorate -M --pretty=oneline --abbrev-commit -M --all &apos;</span><br><span class="line">alias gits=&apos;git status&apos;</span><br><span class="line"></span><br><span class="line">PROMPT_COMMAND=&quot;find_git_branch; $PROMPT_COMMAND&quot;</span><br><span class="line">export LS_OPTIONS=&apos;--color=auto&apos; # 如果没有指定，则自动选择颜色</span><br><span class="line">export CLICOLOR=&apos;Yes&apos; #是否输出颜色</span><br><span class="line">export LSCOLORS=&apos;ExfxcxdxbxegedabagGxGx&apos; #指定颜色</span><br><span class="line">black=$&apos;\[\e[1;30m\]&apos;</span><br><span class="line"></span><br><span class="line">red=$&apos;\[\e[1;31m\]&apos;</span><br><span class="line"></span><br><span class="line">green=$&apos;\[\e[1;32m\]&apos;</span><br><span class="line"></span><br><span class="line">yellow=$&apos;\[\e[1;33m\]&apos;</span><br><span class="line"></span><br><span class="line">blue=$&apos;\[\e[1;34m\]&apos;</span><br><span class="line"></span><br><span class="line">magenta=$&apos;\[\e[1;35m\]&apos;</span><br><span class="line"></span><br><span class="line">cyan=$&apos;\[\e[1;36m\]&apos;</span><br><span class="line"></span><br><span class="line">white=$&apos;\[\e[1;37m\]&apos;</span><br><span class="line"></span><br><span class="line">normal=$&apos;\[\e[m\]&apos;</span><br><span class="line"></span><br><span class="line">PS1=&quot;$white[$white@$green\h$white:$cyan\W$yellow\$git_branch$white]\$ $normal&quot;</span><br></pre></td></tr></table></figure>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="http://link.hhtjim.com/163/425570952.mp3">
+            </audio>
+        </div>
+        
+<div class="comment link" data-id="2018/09/06/bash_profile/" data-title="bash_profile" data-url="http://blog.feran.top/2018/09/06/bash_profile/" data-shortname="feran">查看评论</div>
+
+
+    </div>
+</div>
+
+    </div>
+</div>
+</body>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-69833742-2', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</html>
