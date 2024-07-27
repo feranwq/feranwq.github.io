@@ -1,0 +1,3 @@
+[submodule "terminal_theme"]
+	path = themes/terminal
+	url = git@github.com:feranwq/terminal_theme.git

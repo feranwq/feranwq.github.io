@@ -1,8 +1,8 @@
 title: ansible基础.md
 date: 2016-05-11 11:58:59
 tags: 
-mp3: 
-cover: 
+categories: 
+excerpt: "基本是官方文档笔记"
 ---
 
 #### 安装

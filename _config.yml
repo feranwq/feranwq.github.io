@@ -3,16 +3,16 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: feran's blog
+title: 个人杂货铺
 subtitle:
 description:
 author: feran
 language: zh-CN
-timezone:
+timezone: Asia/Shanghai
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://blog.feran.top
+url: https://ntfy.top
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -31,12 +31,16 @@ skip_render:
 new_post_name: :title.md # File name of new posts
 default_layout: post
 titlecase: false # Transform title into titlecase
-external_link: true # Open external links in new tab
+external_link:
+  enable: true # Open external links in new tab
+  field: site # Apply to the whole site
+  exclude: []
 filename_case: 0
 render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: true
+syntax_highlighter: highlight.js
 highlight:
   enable: true
   line_number: true
@@ -51,6 +55,7 @@ index_generator:
   path: ''
   per_page: 10
   order_by: -date
+  pagination_dir: page
   
 # Category & Tag
 default_category: uncategorized
@@ -63,6 +68,7 @@ tag_map:
 ## http://momentjs.com/docs/#/displaying/format/
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
+updated_option: date
 
 # Pagination
 ## Set per_page to 0 to disable pagination
@@ -72,7 +78,77 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: diaspora
+theme: terminal
+theme_config:
+  # html lang
+  language: zh-Hans
+
+  # main menu navigation
+  menu:
+    Home: /
+    Tags: /tags
+    Categories: /categories
+    About: /about
+
+  # customize your terminal panel
+  terminal:
+    home:
+      - pwd:
+        cmd: ssh ntfy.top
+        outputs:
+          - text: Welcome to ntfy.top
+          - text: " * Newest dalao's links are available at below."
+
+    tags:
+    
+    categories:
+    
+    about:
+      - pwd:
+        cmd: whoami
+        outputs:
+          - text: feran
+            ending: "@"
+          - type: url
+            url: https://github.com/feranwq
+            text: GitHub
+      - pwd:
+        cmd: whereis me
+        outputs:
+          - text: "me: Beijing"
+      - pwd:
+        cmd: man feran
+        outputs:
+          - text: "FERAN(1)"
+          - text: ""
+          - text: "NAME"
+          - text: "feran - A process running as PID 1 but inside a container"
+          - text: ""
+          - text: "DESCRIPTION"
+          - text: "Interests: Devops / Cloud native"
+          - text: "One-More-Word: Valar morghulis, Valar Dohaeris"
+
+    post:
+
+    Links: []
+      # - url: https://github.com/lazysheep666
+      #   text: Github
+      
+      
+  # disqus: NekoDaemon
+  # utterances: Tonny-Gu/blog_comments
+  footer:
+    # Beian ICP and gongan information for Chinese users. See: https://beian.miit.gov.cn, https://beian.mps.gov.cn
+    beian:
+      enable: true
+      icp: 冀ICP备2024078451号-1
+      # The digit in the num of gongan beian.
+      gongan_id: 130424
+      # The full num of gongan beian.
+      gongan_num: 冀公网安备13042402000173号
+      # The icon for gongan beian. Login and See: https://beian.mps.gov.cn/web/business/businessHome/website
+      gongan_icon_url: img/gonganico.png
+  
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html

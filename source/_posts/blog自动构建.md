@@ -1,13 +1,13 @@
 title: BLOG部署
 date: 2017-07-24 23:58:59
 tags: 
-mp3: 
-cover: http://wx3.sinaimg.cn/large/77b6881dly1fhu97q83u7j20zk0m8787.jpg
+categories: 
+excerpt: "任何终端一次构建,之后只需要git push即可自动更新博客,后续只更新博文的话git环境即可"
 ---
 
 
 ### 实现目标
-任何终端一次构建,之后只需要git push即可自动更新博客,后续只更新博文的话git环境即可
+任何终端一次构建,之后只需要git push即可自动更新博客
 
 
 ### 基础环境

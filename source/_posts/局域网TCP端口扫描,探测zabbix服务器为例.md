@@ -1,8 +1,8 @@
 title: 局域网TCP端口扫描,探测zabbix服务器为例
 date: 2017-10-23 21:58:22
 tags: 
-mp3: 
-cover: http://wx2.sinaimg.cn/large/77b6881dgy1fmc3vi5br5j20rs0rsdic.jpg
+categories: 
+excerpt: "通过获取本机地址反推本段(一个C)的IP列表,然后批量扫描TCP端口是否可用,后续要了解是否可以直接通过掩码来反推一个局域网IP的生成器出来提高效率"
 ---
 通过获取本机地址反推本段(一个C)的IP列表,然后批量扫描TCP端口是否可用,后续要了解是否可以直接通过掩码来反推一个局域网IP的生成器出来提高效率
 ```
