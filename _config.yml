@@ -102,7 +102,7 @@ theme_config:
     tags:
     
     categories:
-    
+
     about:
       - pwd:
         cmd: whoami
