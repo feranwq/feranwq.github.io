@@ -12,7 +12,7 @@ timezone: Asia/Shanghai
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://ntfy.top
+url: http://ntfy.top
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -87,7 +87,7 @@ theme_config:
   menu:
     Home: /
     Tags: /tags
-    Categories: /categories
+    # Categories: /categories
     About: /about
 
   # customize your terminal panel
@@ -143,7 +143,7 @@ theme_config:
       enable: true
       icp: 冀ICP备2024078451号-1
       # The digit in the num of gongan beian.
-      gongan_id: 130424
+      gongan_id: 13042402000173
       # The full num of gongan beian.
       gongan_num: 冀公网安备13042402000173号
       # The icon for gongan beian. Login and See: https://beian.mps.gov.cn/web/business/businessHome/website
